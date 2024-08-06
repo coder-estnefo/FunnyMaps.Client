@@ -1,0 +1,46 @@
+h1 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1rem;
+}
+
+main {
+  font-size: 1.5rem;
+}
+
+.auth-box {
+  max-width: 900px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  margin: 2em 1em;
+  // border: 1px solid #000;
+}
+
+.form-input-group {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.form-submit-button {
+  display: flex !important;
+  margin: 1em 0;
+  width: 100%;
+
+  .spinner {
+    height: 1rem !important;
+    width: 1rem !important;
+  }
+}
+
+@media (min-width: 760px) {
+  .auth-box {
+    margin: 3em 25%;
+  }
+}

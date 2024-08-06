@@ -1,0 +1,84 @@
+.search {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: var(--mat-toolbar-mobile-height);
+  width: 80%;
+
+  .search-item {
+    position: absolute;
+    margin-top: 0.1em;
+    margin-bottom: 0.25em;
+    left: 0;
+    right: 1em;
+  }
+}
+
+.main-map {
+  position: relative;
+  height: calc(100vh - var(--mat-toolbar-mobile-height));
+  width: 100%;
+  background-color: #c5c5c5;
+}
+
+.jokes-area {
+  position: absolute;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: 1em;
+  height: 180px;
+  bottom: 2em;
+  left: 0;
+  right: 0;
+}
+
+.jokes-section {
+  height: 100%;
+  display: inline-flex;
+  overflow-y: scroll;
+}
+
+.joke-card {
+  height: 120px;
+  min-width: 200px;
+  margin: 1em 1em 0 0;
+}
+
+.glassy {
+  background-color: #d3d3d380;
+}
+
+@media (min-width: 760px) {
+  .search {
+    width: 50%;
+    left: 10%;
+  }
+
+  .jokes-area {
+    margin: 0 1em;
+    height: calc(100vh - var(--mat-toolbar-mobile-height) - 3em);
+    min-width: 220px;
+    top: calc(var(--mat-toolbar-mobile-height) + 1em);
+    left: 60%;
+    overflow-y: scroll;
+  }
+
+  .jokes-section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .joke-card {
+    height: 120px;
+    max-height: 120px;
+    margin: 1em 0;
+  }
+}
+
+@media (min-width: 800px) {
+  .jokes-area {
+    left: 68%;
+  }
+}

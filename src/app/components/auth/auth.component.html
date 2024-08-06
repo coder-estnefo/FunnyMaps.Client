@@ -1,0 +1,70 @@
+<main>
+  <mat-card class="auth-box">
+    <mat-card-header>
+      <h1>{{ tittle }}</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="authForm">
+        <mat-form-field class="form-input-group">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            matInput
+            formControlName="email"
+            placeholder="user@email.com"
+          />
+          <mat-hint>Email Address</mat-hint>
+          <span *ngIf="authForm.controls.email.touched">
+            <mat-error *ngIf="authForm.controls.email.errors"
+              >- Email Required</mat-error
+            >
+            <mat-error *ngIf="errors.Email">- {{ errors.Email[0] }}</mat-error>
+          </span>
+        </mat-form-field>
+
+        <mat-form-field class="form-input-group">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" />
+          <mat-hint>Password</mat-hint>
+          <span *ngIf="authForm.controls.password.touched">
+            <mat-error *ngIf="authForm.controls.password.errors?.['required']">
+              - Password Required
+            </mat-error>
+            <mat-error *ngIf="authForm.controls.password.errors?.['minlength']">
+              - Password must contain at least 8 characters
+            </mat-error>
+
+            <mat-error *ngIf="errors.Password">
+              - {{ errors.Password[0] }}
+            </mat-error>
+          </span>
+        </mat-form-field>
+
+        <p>
+          Already registered
+          <a routerLink="/auth" (click)="goToLogin()">Login</a>
+        </p>
+
+        <p>
+          Not registered
+          <a routerLink="/auth" (click)="goToRegister()">Register</a>
+        </p>
+
+        <button
+          mat-flat-button
+          class="form-submit-button"
+          color="primary"
+          [disabled]="authForm.invalid"
+          (click)="onSubmit()"
+        >
+          <span *ngIf="!isLoading">
+            {{ tittle }}
+          </span>
+          <span *ngIf="isLoading">
+            <mat-spinner class="spinner"></mat-spinner>
+          </span>
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</main>

@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon [matMenuTriggerFor]="menu">menu</mat-icon>
+    <mat-menu #menu>
+      <button mat-menu-item routerLink="/funny-map">
+        <mat-icon>map</mat-icon>
+        <mat-label>Home</mat-label>
+      </button>
+      <button mat-menu-item routerLink="/add-joke">
+        <mat-icon>add_circle</mat-icon>
+        <mat-label>Add Joke</mat-label>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        <mat-label>Log out</mat-label>
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
