@@ -8,10 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AuthComponent } from './components/auth/auth.component';
-import { FunnyMapComponent } from './components/funny-map/funny-map.component';
-import { AddJokeComponent } from './components/add-joke/add-joke.component';
-
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -26,7 +22,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
 
-const MatModules = [
+export const MatModules = [
   MatSlideToggleModule,
   MatButtonModule,
   MatProgressSpinnerModule,
@@ -40,13 +36,7 @@ const MatModules = [
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavBarComponent,
-    AuthComponent,
-    FunnyMapComponent,
-    AddJokeComponent,
-  ],
+  declarations: [AppComponent, NavBarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

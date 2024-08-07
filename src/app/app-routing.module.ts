@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FunnyMapComponent } from './components/funny-map/funny-map.component';
-import { AuthComponent } from './components/auth/auth.component';
-import { AddJokeComponent } from './components/add-joke/add-joke.component';
 import { authGuard } from './guards/auth/auth.guard';
-import { AuthInterceptor } from './interceptors/auth/auth.interceptor';
 
 const routes: Routes = [
   {
@@ -14,16 +10,21 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    component: AuthComponent,
+    loadChildren: () =>
+      import('./pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'funny-map',
-    component: FunnyMapComponent,
+    loadChildren: () =>
+      import('./pages/funny-map/funny-map.module').then(
+        (m) => m.FunnyMapModule
+      ),
     canActivate: [authGuard],
   },
   {
     path: 'add-joke',
-    component: AddJokeComponent,
+    loadChildren: () =>
+      import('./pages/add-joke/add-joke.module').then((m) => m.AddJokeModule),
     canActivate: [authGuard],
   },
 ];
