@@ -7,10 +7,51 @@
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="jokeForm">
+        <mat-chip-listbox
+          [value]="currentSearchType.type"
+          (change)="setLocationMethod($event)"
+        >
+          <mat-chip-option
+            class="full-width"
+            *ngFor="let currentType of searchTypes"
+            [value]="currentType.type"
+          >
+            <mat-chip-avatar>
+              <mat-icon>{{ currentType.icon }}</mat-icon>
+            </mat-chip-avatar>
+            <mat-label>{{ currentType.label }}</mat-label>
+          </mat-chip-option>
+        </mat-chip-listbox>
+
+        <mat-form-field class="input-group">
+          <mat-label>Location</mat-label>
+          <input
+            type="search"
+            formControlName="location"
+            matInput
+            (ngModelChange)="searchLocation()"
+            [matAutocomplete]="addressAutocomplete"
+          />
+          <mat-autocomplete #addressAutocomplete>
+            <mat-option
+              *ngFor="let location of locations?.features"
+              (click)="
+                selectLocation(
+                  location.properties.place_formatted,
+                  location.properties.coordinates.latitude,
+                  location.properties.coordinates.longitude
+                )
+              "
+            >
+              {{ location.properties.place_formatted }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
         <mat-form-field class="input-group">
           <mat-label>Joke</mat-label>
           <textarea matInput rows="6" formControlName="description"></textarea>
-          <mat-hint>e.g why did the chicken cross the road</mat-hint>
+          <mat-hint>e.g why did the chicken cross the road..</mat-hint>
         </mat-form-field>
         <button
           mat-flat-button
