@@ -5,20 +5,43 @@
       type="search"
       placeholder="Search Location"
       [matAutocomplete]="addressAutocomplete"
+      [(ngModel)]="locationQuery"
+      (ngModelChange)="searchForLocation()"
     />
     <mat-autocomplete #addressAutocomplete="matAutocomplete">
-      <mat-option>Mabopane</mat-option>
+      <mat-option
+        *ngFor="let place of places?.features"
+        (click)="
+          selectLocation(
+            place.properties.place_formatted,
+            place.properties.coordinates.longitude,
+            place.properties.coordinates.latitude
+          )
+        "
+      >
+        {{ place.properties.place_formatted }}
+      </mat-option>
     </mat-autocomplete>
   </mat-form-field>
 </div>
 <main id="map" class="main-map"></main>
 <div class="jokes-area">
   <mat-card class="glassy">
-    <mat-card-header>Jokes</mat-card-header>
+    <mat-card-header>
+      {{ currentLocation }}
+    </mat-card-header>
     <mat-card-content class="jokes-section">
-      <mat-card class="joke-card" *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8]">
-        <mat-card-content> joke card {{ i }} </mat-card-content>
+      <mat-card class="joke-card" *ngFor="let joke of jokes">
+        <mat-card-content> {{ joke.description }} </mat-card-content>
       </mat-card>
+      <div *ngIf="jokes.length == 0 && !isLoading" class="container">
+        <p>No Jokes yet</p>
+      </div>
+      <div *ngIf="isLoading" class="container">
+        <p>
+          <mat-spinner class="spinner"></mat-spinner>
+        </p>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
