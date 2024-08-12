@@ -17,7 +17,8 @@ export class FunnyMapComponent implements OnInit, AfterViewInit {
 
   jokeService = inject(JokeService);
 
-  map?: mapboxgl.Map;
+  map!: mapboxgl.Map;
+  marker?: mapboxgl.Marker;
   locationQuery!: string;
   currentLocation!: string;
   places?: IGeocoding;
@@ -61,9 +62,17 @@ export class FunnyMapComponent implements OnInit, AfterViewInit {
     this.places = undefined;
     this.locationQuery = place;
     this.currentLocation = place;
+    this.addMarker(lng, lat);
     this.jokeService.getJokesByLocation(place).subscribe((jokes) => {
       this.isLoading = false;
       this.jokes = jokes;
     });
+  }
+
+  addMarker(lng: number, lat: number) {
+    const point = mapboxgl.LngLat.convert([lng, lat]);
+    this.marker?.remove();
+    this.marker = new mapboxgl.Marker().setLngLat(point).addTo(this.map);
+    this.map?.jumpTo({ zoom: 10, center: point });
   }
 }
