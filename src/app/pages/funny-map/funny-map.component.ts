@@ -45,6 +45,16 @@ export class FunnyMapComponent implements OnInit, AfterViewInit {
       center: [28.14094120767747, -25.75542520300563],
       zoom: 4,
     });
+
+    this.map.doubleClickZoom.disable();
+
+    this.map?.on('dblclick', (e) => {
+      const { lat, lng } = e.lngLat;
+
+      this.addMarker(lng, lat);
+
+      this.addCircle(lng, lat);
+    });
   }
 
   searchForLocation() {
@@ -63,6 +73,7 @@ export class FunnyMapComponent implements OnInit, AfterViewInit {
     this.locationQuery = place;
     this.currentLocation = place;
     this.addMarker(lng, lat);
+    this.addCircle(lng, lat);
     this.jokeService.getJokesByLocation(place).subscribe((jokes) => {
       this.isLoading = false;
       this.jokes = jokes;
@@ -74,5 +85,36 @@ export class FunnyMapComponent implements OnInit, AfterViewInit {
     this.marker?.remove();
     this.marker = new mapboxgl.Marker().setLngLat(point).addTo(this.map);
     this.map?.jumpTo({ zoom: 10, center: point });
+  }
+
+  addCircle(lng: number, lat: number) {
+    if (this.map?.getLayer('circle-location-layer')) {
+      this.map?.removeLayer('circle-location-layer');
+    }
+
+    if (this.map?.getSource('circle-location')) {
+      this.map?.removeSource('circle-location');
+    }
+
+    var center = [lng, lat];
+    var radius = 5;
+    var circle = turf.circle(center, radius, {
+      steps: 10,
+      units: 'kilometers',
+    });
+
+    this.map?.addSource('circle-location', {
+      type: 'geojson',
+      data: circle,
+    });
+
+    this.map?.addLayer({
+      id: 'circle-location-layer',
+      type: 'fill',
+      source: 'circle-location',
+      paint: {
+        'fill-color': 'rgba(0, 0, 255, 0.3)',
+      },
+    });
   }
 }
