@@ -19,8 +19,8 @@ export class AuthService {
   http = inject(HttpClient);
 
   constructor() {
-    var x = this.getToken();
-    if (x) {
+    var token = this.getToken();
+    if (token) {
       this.isLoggedIn = true;
     }
   }
@@ -56,5 +56,9 @@ export class AuthService {
     }
 
     return;
+  }
+
+  logout() {
+    localStorage.removeItem('token');
   }
 }
