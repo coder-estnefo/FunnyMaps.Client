@@ -15,7 +15,7 @@ export default interface AuthError {
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent {
-  tittle: 'Register' | 'Login' = 'Register';
+  title: 'Register' | 'Login' = 'Login';
   error = '';
   errors: AuthError = {};
   isLoading = false;
@@ -36,7 +36,7 @@ export class AuthComponent {
       next: (response) => {
         this.isLoading = false;
         this.authForm.reset();
-        this.tittle = 'Login';
+        this.title = 'Login';
       },
       error: (error: HttpErrorResponse) => {
         this.isLoading = false;
@@ -72,20 +72,20 @@ export class AuthComponent {
 
   onSubmit() {
     this.isLoading = true;
-    if (this.authForm.valid && this.tittle == 'Register') {
+    if (this.authForm.valid && this.title == 'Register') {
       this.register();
     }
 
-    if (this.authForm.valid && this.tittle == 'Login') {
+    if (this.authForm.valid && this.title == 'Login') {
       this.login();
     }
   }
 
   goToLogin() {
-    this.tittle = 'Login';
+    this.title = 'Login';
   }
 
   goToRegister() {
-    this.tittle = 'Register';
+    this.title = 'Register';
   }
 }

@@ -13,14 +13,18 @@ main {
   font-size: 1.5rem;
 }
 
-.auth-box {
+.auth-card {
   max-width: 900px;
   min-width: 200px;
   display: flex;
   flex-direction: column;
-  padding: 1em;
   margin: 2em 1em;
-  // border: 1px solid #000;
+}
+
+.options {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
 }
 
 .form-input-group {
@@ -40,7 +44,7 @@ main {
 }
 
 @media (min-width: 760px) {
-  .auth-box {
+  .auth-card {
     margin: 3em 25%;
   }
 }

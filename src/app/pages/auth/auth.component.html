@@ -1,9 +1,28 @@
 <main>
-  <mat-card class="auth-box">
+  <mat-card class="auth-card">
     <mat-card-header>
-      <h1>{{ tittle }}</h1>
+      <h1>{{ title }}</h1>
     </mat-card-header>
     <mat-card-content>
+      <div class="options">
+        <mat-chip-option
+          class="full-width"
+          [selected]="title === 'Login'"
+          [value]="'Login'"
+          (click)="goToLogin()"
+        >
+          <mat-label>Login</mat-label>
+        </mat-chip-option>
+
+        <mat-chip-option
+          class="full-width"
+          [selected]="title === 'Register'"
+          [value]="'Register'"
+          (click)="goToRegister()"
+        >
+          <mat-label>Register</mat-label>
+        </mat-chip-option>
+      </div>
       <form [formGroup]="authForm">
         <mat-form-field class="form-input-group">
           <mat-label>Email</mat-label>
@@ -58,7 +77,7 @@
           (click)="onSubmit()"
         >
           <span *ngIf="!isLoading">
-            {{ tittle }}
+            {{ title }}
           </span>
           <span *ngIf="isLoading">
             <mat-spinner class="spinner"></mat-spinner>
