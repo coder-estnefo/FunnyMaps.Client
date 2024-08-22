@@ -48,3 +48,18 @@ main {
     margin: 3em 25%;
   }
 }
+
+.error-box {
+  margin: 0.5em 0;
+  padding: 0.5em 0.25em 1em 0;
+  background-color: rgba(250, 136, 136, 0.5);
+  border-radius: 8px;
+
+  mat-error {
+    font-size: 0.75em !important;
+  }
+
+  p {
+    margin: 0.25em;
+  }
+}

@@ -1,13 +1,8 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth/auth.service';
-
-export default interface AuthError {
-  Email?: string[];
-  Password?: string[];
-}
+import { ErrorModel } from 'src/app/interfaces/error-model';
+import { AuthService, Token } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -16,8 +11,7 @@ export default interface AuthError {
 })
 export class AuthComponent {
   title: 'Register' | 'Login' = 'Login';
-  error = '';
-  errors: AuthError = {};
+  error!: ErrorModel | undefined;
   isLoading = false;
 
   fb = inject(FormBuilder);
@@ -38,18 +32,10 @@ export class AuthComponent {
         this.authForm.reset();
         this.title = 'Login';
       },
-      error: (error: HttpErrorResponse) => {
+      error: (error: ErrorModel) => {
         this.isLoading = false;
-
-        if (typeof error.error === 'string') {
-          this.error = error.error;
-        }
-
-        if (error.error?.['errors']) {
-          this.errors = error.error['errors'];
-        }
+        this.error = error;
       },
-      complete: () => {},
     });
   }
 
@@ -57,20 +43,23 @@ export class AuthComponent {
     this.isLoading = true;
     const { email, password } = this.authForm.value;
     this.auth.login(email!, password!).subscribe({
-      next: (response) => {
+      next: (token) => {
+        this.isLoading = false;
         this.authForm.reset();
+        this.auth.storeToken(token);
         this.router.navigate(['/funny-map']).then(() => {
           this.isLoading = false;
         });
       },
-      error: (error) => {
+      error: (error: ErrorModel) => {
         this.isLoading = false;
+        this.error = error;
       },
-      complete: () => {},
     });
   }
 
   onSubmit() {
+    this.error = undefined;
     this.isLoading = true;
     if (this.authForm.valid && this.title == 'Register') {
       this.register();
@@ -82,10 +71,16 @@ export class AuthComponent {
   }
 
   goToLogin() {
+    this.error = undefined;
+    this.isLoading = false;
+    this.authForm.reset();
     this.title = 'Login';
   }
 
   goToRegister() {
+    this.error = undefined;
+    this.isLoading = false;
+    this.authForm.reset();
     this.title = 'Register';
   }
 }

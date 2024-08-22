@@ -10,6 +10,7 @@
           [selected]="title === 'Login'"
           [value]="'Login'"
           (click)="goToLogin()"
+          [disabled]="isLoading"
         >
           <mat-label>Login</mat-label>
         </mat-chip-option>
@@ -19,6 +20,7 @@
           [selected]="title === 'Register'"
           [value]="'Register'"
           (click)="goToRegister()"
+          [disabled]="isLoading"
         >
           <mat-label>Register</mat-label>
         </mat-chip-option>
@@ -37,7 +39,6 @@
             <mat-error *ngIf="authForm.controls.email.errors"
               >- Email Required</mat-error
             >
-            <mat-error *ngIf="errors.Email">- {{ errors.Email[0] }}</mat-error>
           </span>
         </mat-form-field>
 
@@ -52,10 +53,6 @@
             <mat-error *ngIf="authForm.controls.password.errors?.['minlength']">
               - Password must contain at least 8 characters
             </mat-error>
-
-            <mat-error *ngIf="errors.Password">
-              - {{ errors.Password[0] }}
-            </mat-error>
           </span>
         </mat-form-field>
 
@@ -68,6 +65,24 @@
           Not registered
           <a routerLink="/auth" (click)="goToRegister()">Register</a>
         </p>
+
+        <div class="error-box" *ngIf="error?.errors">
+          <mat-error>
+            <ul>
+              <li *ngFor="let error of error?.errors">
+                {{ error }}
+              </li>
+            </ul>
+          </mat-error>
+        </div>
+
+        <div class="error-box" *ngIf="error?.detail">
+          <mat-error>
+            <p>
+              {{ error?.detail }}
+            </p>
+          </mat-error>
+        </div>
 
         <button
           mat-flat-button

@@ -1,12 +1,19 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpResponse,
+  HttpStatusCode,
+} from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, pipe, throwError } from 'rxjs';
+import { ErrorModel } from 'src/app/interfaces/error-model';
 
 interface OkResponse {
   message: string;
 }
 
-interface Token {
+export interface Token {
   value: string;
 }
 
@@ -15,6 +22,10 @@ interface Token {
 })
 export class AuthService {
   private baseUrl = 'https://localhost:7081/api/Auth/';
+
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
 
   http = inject(HttpClient);
 
@@ -27,23 +38,74 @@ export class AuthService {
 
   isLoggedIn: boolean = false;
 
-  register(email: string, password: string): Observable<OkResponse> {
+  register(email: string, password: string): Observable<HttpStatusCode> {
     var url = new URL('register', this.baseUrl).href;
-    return this.http.post<OkResponse>(url, { email, password });
-  }
-
-  login(email: string, password: string) {
-    var headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    var url = new URL('login', this.baseUrl);
-    url.searchParams.append('username', email);
-    url.searchParams.append('password', password);
     return this.http
-      .post(url.href, { email, password }, { headers, responseType: 'text' })
-      .pipe(map((token) => this.storeToken(token)));
+      .post<HttpStatusCode>(url, { email, password }, { headers: this.headers })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return this._handleError(error);
+        })
+      );
   }
 
-  private storeToken(token: string) {
+  login(email: string, password: string): Observable<string> {
+    var url = new URL('login', this.baseUrl);
+    return this.http
+      .post<Token>(url.href, { email, password }, { headers: this.headers })
+      .pipe(
+        map((token: Token) => token.value),
+        catchError((error: HttpErrorResponse) => {
+          return this._handleError(error);
+        })
+      );
+  }
+
+  private _handleError(error: HttpErrorResponse) {
+    var _error: ErrorModel;
+
+    if (error.status >= 400) {
+      if (error.error) {
+        _error = {
+          status: error.error['status'],
+          title: error.error['title'],
+          detail: error.error['detail'],
+        };
+      }
+
+      if (error.error.errors) {
+        var emailErrors = error.error['errors']['Email'];
+        var passwordErrors = error.error['errors']['Password'];
+
+        const errors = [];
+
+        if (emailErrors) {
+          errors.push(...emailErrors);
+        }
+
+        if (passwordErrors) {
+          errors.push(...passwordErrors);
+        }
+
+        _error = {
+          status: error.error['status'],
+          title: error.error['title'],
+          detail: error.error['title'],
+          errors: errors,
+        };
+      }
+    } else {
+      _error = {
+        detail: error.statusText,
+        status: error.status,
+        title: error.name,
+      };
+    }
+
+    return throwError(() => _error);
+  }
+
+  storeToken(token: string) {
     this.isLoggedIn = true;
     localStorage.setItem('token', token);
   }
