@@ -97,9 +97,9 @@ export class FunnyMapComponent implements OnInit, AfterViewInit {
     }
 
     var center = [lng, lat];
-    var radius = 5;
+    var radius = 2;
     var circle = turf.circle(center, radius, {
-      steps: 10,
+      steps: 64,
       units: 'kilometers',
     });
 
@@ -116,5 +116,8 @@ export class FunnyMapComponent implements OnInit, AfterViewInit {
         'fill-color': 'rgba(0, 0, 255, 0.3)',
       },
     });
+
+    const point = mapboxgl.LngLat.convert([lng, lat]);
+    this.map?.flyTo({ zoom: 13, center: point });
   }
 }
