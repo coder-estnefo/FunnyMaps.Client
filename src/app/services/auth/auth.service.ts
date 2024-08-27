@@ -2,16 +2,12 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders,
-  HttpResponse,
   HttpStatusCode,
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, pipe, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { ErrorModel } from 'src/app/interfaces/error-model';
-
-interface OkResponse {
-  message: string;
-}
+import { environment } from 'src/environments/environment.development';
 
 export interface Token {
   value: string;
@@ -21,7 +17,7 @@ export interface Token {
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'https://localhost:7081/api/Auth/';
+  private baseUrl = environment.authBaseUrl;
 
   headers = new HttpHeaders({
     'Content-Type': 'application/json',
