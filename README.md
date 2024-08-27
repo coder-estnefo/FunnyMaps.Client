@@ -13,7 +13,7 @@ export const environment = {
 };
 ```
 
-[AUTH_BASE_URL] AND [JOKES_BASE_URL] [SERVER-REPO](https://github.com/coder-estnefo/FunnyMaps.Client.git) <br>
+[AUTH_BASE_URL] AND [JOKES_BASE_URL] [SERVER-REPO](https://github.com/coder-estnefo/FunnyMaps.Server.git) <br>
 [MAPBOX_API_KEY] [CREATE-ACCOUNT-AND-GET-API-KEY](https://www.mapbox.com/) <br>
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.14.
