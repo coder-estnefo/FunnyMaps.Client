@@ -3,7 +3,7 @@
 ## Initial Setup
 
 Set variables in src\environments\environment.development.ts
-`
+```
 export const environment = {
   production: false,
   authBaseUrl: [AUTH_BASE_URL],
@@ -11,7 +11,7 @@ export const environment = {
   mapboxGeocodeBaseUrl: 'https://api.mapbox.com/search/geocode/v6/',
   mapbox_access_token: [MAPBOX_API_KEY],
 };
-`
+```
 
 [AUTH_BASE_URL] AND [JOKES_BASE_URL] [SERVER-REPO](https://github.com/coder-estnefo/FunnyMaps.Client.git) <br>
 [MAPBOX_API_KEY] [CREATE-ACCOUNT-AND-GET-API-KEY](https://www.mapbox.com/) <br>
